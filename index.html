@@ -47,15 +47,6 @@ tw-passage {
                breathe 16s ease-in-out infinite;
 }
 
-/* Subtle glow / flicker for passages */
-@keyframes subtleGlow {
-    0%   { border-left-color: #c99c6a; background: linear-gradient(120deg, rgba(20,20,25,0.85), rgba(30,30,35,0.85)); }
-    25%  { border-left-color: #e2b87d; background: linear-gradient(120deg, rgba(24,24,28,0.85), rgba(36,36,40,0.85)); }
-    50%  { border-left-color: #d9b07c; background: linear-gradient(120deg, rgba(22,22,28,0.85), rgba(32,32,38,0.85)); }
-    75%  { border-left-color: #e2b87d; background: linear-gradient(120deg, rgba(24,24,28,0.85), rgba(36,36,40,0.85)); }
-    100% { border-left-color: #c99c6a; background: linear-gradient(120deg, rgba(20,20,25,0.85), rgba(30,30,35,0.85)); }
-}
-
 /* Halo glow behind passages */
 tw-passage::before {
     content: '';
