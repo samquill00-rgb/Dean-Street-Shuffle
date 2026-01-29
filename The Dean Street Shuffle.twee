@@ -1,0 +1,1104 @@
+:: StoryTitle
+The Dean Street Shuffle
+
+
+:: StoryData
+{
+  "ifid": "E3F7C9E2-3617-469A-AE5C-210AFB87B930",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "Dean Street",
+  "tag-colors": {
+    "Pillars/Carthage": "yellow",
+    "Pillars/": "yellow",
+    "Pillars": "yellow",
+    "LINE-2": "purple",
+    "LINE": "purple",
+    "Line": "orange",
+    "French": "red",
+    "End": "blue",
+    "Colony": "green",
+    "Poet": "orange",
+    "Carthage": "yellow",
+    "header": "blue",
+    "END": "blue",
+    "DEAN-STREET": "purple"
+  },
+  "zoom": 0.6
+}
+
+
+:: Alba Display {"position":"1650,50","size":"100,100"}
+(if: $albaRevealed is true)[
+<div class="alba-tracker">
+<div class="alba-tracker-header">THE ALBA</div>
+<div class="alba-tracker-subtitle">Find the three lines before dawn</div>
+
+(if: $alba contains $alba1)[<div class="alba-line-found">✓ $alba1</div>](else:)[<div class="alba-line-missing">? ? ?</div>]
+
+(if: $alba contains $alba2)[<div class="alba-line-found">✓ $alba2</div>](else:)[<div class="alba-line-missing">? ? ?</div>]
+
+(if: $alba contains $alba3)[<div class="alba-line-found">✓ $alba3</div>](else:)[<div class="alba-line-missing">? ? ?</div>]
+
+(set: _count to 0)
+(if: $alba contains $alba1)[(set: _count to _count + 1)]
+(if: $alba contains $alba2)[(set: _count to _count + 1)]
+(if: $alba contains $alba3)[(set: _count to _count + 1)]
+
+(if: _count is 3)[<div class="alba-complete">THE ALBA IS COMPLETE — SEEK THE DAWN</div>]
+(else-if: _count > 0)[<div class="alba-progress">(print: _count) of 3 lines found</div>]
+</div>
+]
+
+
+
+
+:: At the Corner of Dean Street and Greek Street [Poet] {"position":"1850,975","size":"100,100"}
+A man, not much past twenty, stands under a ginger light. At first you think he must be a dilly boy. He wears a beret and paints his nails; he is epicene and crinoline, as if he might snap at any moment. 
+
+Then you clock him for a poet that you know. A poet called Red.
+
+	[[Speak to him|You speak to the poet]]
+	[[Wait for him to speak|You wait for him to speak]]
+
+
+:: Beaten {"position":"2225,2125","size":"100,100"}
+Copper hauls you to your feet and shoves you toward the stairs.
+
+'Don't come back,' he says.
+
+You stagger out onto Dean Street. Everything hurts.
+
+(set: $confidence to $confidence - 15)
+
+[[Dean Street|Dean Street]]
+
+
+:: Black page [End] {"position":"1225,375","size":"100,100"}
+EXPLICIT LIBER EST.
+
+[[PLUS. ULTRA.|Dawn]]
+
+
+:: Coach and Horses lock [End] {"position":"2575,750","size":"100,100"}
+Oh dear! How time flies. You've just come-to in a cubicle, in what seems to be the gents' toilet at the Coach and Horses.
+
+You gather yourself and walk back to the bar.
+
+It is empty except for Jerry Bernard and, behind the bar, a large Friesian cow.
+
+[[Talk to Jerry Bernard|Jerry conversation]]
+[[Deal with the cow|Jeffrey Bernard's Cow]]
+
+
+
+:: Colony drink {"position":"1650,1575","size":"100,100"}
+(set: $sobriety to $sobriety - 15)
+
+You drink. The Colony Room tilts.
+
+[[Talk to the fancy agent|Talk to the intimidating agent]]
+
+
+
+:: Colony drink choice {"position":"1675,1375","size":"100,100"}
+What'll it be?
+
+[[Vodka tonic|Colony drink]]
+[[Champagne|Colony drink]]
+[[Beer|Colony drink]]
+
+
+:: Copper accepts {"position":"1900,1875","size":"100,100"}
+Silvu Copper smiles: 'You're in'.
+
+[[Trisha's|Trisha's]]
+
+
+:: Copper confronts {"position":"2075,1875","size":"100,100"}
+Copper steps closer. 
+
+'I asked you a question,' he says.
+
+Quiet Frankie still hasn't looked up but Ashton Granger has; she stops doodling.
+
+[[Try to run for the stairs|Fight starts]]
+[[Stand your ground|Fight starts]]
+
+
+:: Crisis with the critic [Pillars] {"position":"1200,1500","size":"100,100"}
+You move to his table and place your drink on a little vacant patch among his papers.
+
+What do you say?
+
+'I like books…'
+
+
+[['… but I don't like all this drinking.'|None of us likes it!]]
+
+[['… but I don't like poetry.'|None of us likes it!]]
+
+
+:: Dawn {"position":"800,300","size":"100,100"}
+(if: ($alba contains $alba1) and ($alba contains $alba2) and ($alba contains $alba3))[
+  You made it through the night.
+  
+  As the first grey light touches Dean Street, you find a bench and sit. 
+  
+  The manuscript is still in your bag. Perhaps Morris will see you tomorrow. Perhaps not.
+  
+  But you survived. And the poem — cool, pale, wet with the dew of lily-of-the-valley — plays in your head like a promise.
+  
+  (print: $alba1)
+  (print: $alba2)
+  (print: $alba3)
+  
+  //FINIS//
+](else:)[
+  Not yet. The poem is incomplete.
+
+  [[Back to Dean Street|Dean Street]]
+]
+
+
+:: Dean Street {"position":"1525,900","size":"100,100"}
+(if: $metRed is true)[
+(display: "Alba Display")
+
+[[Go to Dawn|Dawn]]
+]
+
+(set: $returns to $returns + 1)
+
+(if: $sobriety <= 0)[
+(goto: "Coach and Horses lock")
+]
+
+(unless: $alba is an array)[(set: $alba to (a:))]
+(unless: $albaGiven is a datamap)[(set: $albaGiven to (dm: "red", false, "street2", false, "street3", false))]
+
+<!-- THE ALBA TRACKER APPEARS HERE, PROMINENTLY -->
+(display: "Alba Display")
+
+(if: $confidence <= 10)[
+    [[Give up on the book|No more]]
+]
+]
+​
+(if: $confidence >= 90)[
+    [[Go straight to Trisha's|Trisha's]]
+]
+​
+(set: $alba1 to "As cool as the pale wet leaves")
+(set: $alba2 to "of lily-of-the-valley")
+(set: $alba3 to "She lay beside me in the dawn.")
+​
+(display: "Alba Display")
+​
+​
+23.11.73
+​
+Dean Street, Soho, London. 
+​
+A heavy afternoon lingers in rainfall on the pavements though the sky has cleared now and the newborn night is cut with moonshine.
+​
+There is an atmosphere of the silver screen: as if Brando might emerge in a tight and sodden T-shirt, from any door or alleyway, anytime.
+​
+What noises you can hear turn on or off according to the footage in your head.
+​
+In your bag, you have your novel in manuscript. You need to sell it, pronto.
+​
+(if: $metRed is true)[
+Where do you go?
+​
+[[To The French |You enter the French]]
+[[To The Pillars of Hercules|Maritime interlude]]
+[[Try the Colony Room|The Colony Room Door]]
+​
+(if: $knowsMorris is true)[
+[[Go to Morris's Office on Frith Street|Morris's Office]]
+]
+
+(if: 
+  ($alba contains $alba1)
+  and ($alba contains $alba2)
+  and not ($alba contains $alba3)
+)[
+[[The stairs|The Interval]]
+]
+]
+(else:)[
+(if: $returns > 1)[There's someone on the corner you should speak to.
+
+][[Who's that on the corner?|At the Corner of Dean Street and Greek Street]]
+]
+
+
+
+:: Dido [Carthage] {"position":"525,1125","size":"100,100"}
+On the pyre, Dido is burning where she has burnt for 2,000 years.
+
+The scent of her sour embers says something about the lily of the valley.
+
+'Stay,' she says, 'my Carthage is for you. She is in her valley and will not return. Rest here and think no more about your England.'
+
+(if: $confidence <= 15)[
+[[Remain in Carthage|Stay in Carthage]]
+[[Try The Green Sea|LINE 2]]
+]
+(else:)[
+Not yet. The game's not played to death.
+
+[[Try The Green Sea|LINE 2]]
+]
+
+
+:: Entering The Pillars of Hercules [Pillars] {"position":"925,1150","size":"100,100"}
+(unless: $visited is a datamap)[(set: $visited to (dm:))]
+
+(unless: $visited contains "Pillars")[(set: $visited's Pillars to false)]
+
+(set: $sobriety to $sobriety - 10)
+
+(if: $visited's Pillars is not true)[
+	(set: $visited's Pillars to true)
+	(set: $confidence to $confidence + 8)
+]
+
+When you pass the Pillars' threshold you've already made your choice. 
+
+Whatever more you choose comes out in the wash: 
+
+'Hobson has supt, and 's newly gon to bed.'
+
+Through the fumes, vapours and drink, you recognise a man.
+
+[[Talk to the halfcut literary critic|Talk to the critic]]
+
+
+:: Escape success {"position":"1950,2125","size":"100,100"}
+You bolt for the stairs. Copper shouts something but you're already gone, back through the Colony Room door and onto Dean Street.
+
+Your hands are shaking. Your jaw hurts.
+
+(set: $confidence to $confidence - 8)
+
+[[Dean Street|Dean Street]]
+
+
+:: Failure: Trisha's [End] {"position":"1325,1650","size":"100,100"}
+(set: $confidence to $confidence - 12)
+
+They do not know you. 
+
+[[Dean Street|Dean Street]]
+
+
+:: Fight starts {"position":"2075,2000","size":"100,100"}
+(set: _fightChance to (random: 1, 10))
+
+You move but Copper is already on you. His hand catches your collar.
+
+(if: _fightChance >= 7)[
+You twist free and your elbow catches him in the jaw. He stumbles backward, genuinely surprised.
+
+For a moment the cellar is silent except for your breathing.
+
+[[Run for it|Escape success]]
+[[Press the advantage|Press advantage]]
+]
+(else:)[
+His fist drives into your stomach. The air leaves your lungs and the cellar tilts.
+
+[[Try to get up|Beaten]]
+]
+
+
+:: Gin and bitter lemon [Pillars] {"position":"1025,1500","size":"100,100"}
+(set: $sobriety to $sobriety - 15)
+(set: $confidence to $confidence - 5)
+
+Him: 'Pint of Guinness, double whisky, and a gin and... no, you say it.'
+
+You: '…and Bitter Lemon.'
+
+[[Ride it out|Crisis with the critic]]
+
+
+:: In Copper's lair [Colony] {"position":"2100,1550","size":"100,100"}
+'Come in then,' says Copper.
+
+You do as you're told as he closes the door behind you.
+
+'Downstairs,' says Copper.
+
+You don't remember it being downstairs.
+
+Salvu Copper is a big man in a small body, or perhaps it's the otherway round, you can't be sure. 
+
+You barrel yourself into a cellar, cold and pale. It extends to your left, beneath the colony rooms and probobably one plot further.
+
+You turn to Copper, who has just joined you from the stairs.
+
+[[Turn to Copper|Turn to Copper]]
+
+
+:: Jeffrey Bernard's Cow [End] {"position":"2325,625","size":"100,100"}
+'Will you do something about this cow?'
+
+Said Jeffrey Bernard.
+
+You take its bridle. It sneezes. When you look back he's disappeared, to a timeshare on the seacoast of Bohemia.
+
+What will you do with his cow?
+
+[[Ride the beast|Ride Jeffrey Bernard's cow]]
+[[Try to milk it|Milk Jeffrey Bernard's Cow]]
+
+
+:: Jerry conversation [End] {"position":"2575,500","size":"100,100"}
+'Are yuo alright?' he says. 'You don't look well.'
+
+'I've got a book to sell.'
+
+'That I can see. They're running from you, will have been all night. Have you seen my cow?'
+
+He seems unsure if he's lost it of if he's asking if you'd found it. It's standing behind the bar, lets out a noise.
+
+He drinks.
+
+'Speak to Morris, he'll be around. You\ll find your own way out.'
+
+(set: $knowsMorris to true)
+(set: $confidence to $confidence + 5)
+
+[[Thank him and leave|Dean Street]]
+[[Mention the cow|Jeffrey Bernard's Cow]]
+
+
+:: LINE 1 [LINE] {"position":"2225,1000","size":"100,100"}
+'You'll never sell it,' says Red, 'but the pound looks after itself. That's the way out.'
+
+He turns and leaves his ginger light. Before he gets too far away, you catch something more from the dark. He is speaking to you.
+
+(link: "Listen to him.")[
+(unless: $alba is an array)[(set: $alba to (a:))]
+(unless: $albaGiven is a datamap)[(set: $albaGiven to (dm: "red", false, "street2", false, "street3", false))]
+(set: $alba to $alba + (a: $alba1))
+(set: $albaGiven's red to true)
+(set: $albaRevealed to true)
+
+<div class="revelation-box">
+<div class="revelation-header">⟡ THE ALBA ⟡</div>
+
+Red's voice drops to something older than poetry:
+
+'Forget the manuscript. That's not how you survive this night.
+
+'Soho takes things from people — books, money, years. But she gives something back to those who listen. Three lines of an aubade, scattered through the dark. Find them before dawn and you'll walk out of here whole.
+
+'Miss them, and you'll be just another ghost on Dean Street.'
+
+He presses something cold into your palm. When you look down, there's nothing there — only words burning in your mind:
+
+<div class="alba-line">"$alba1"</div>
+
+<div class="revelation-footer">THE FIRST LINE OF THREE</div>
+</div>
+
+[[Back to Dean Street|Dean Street]]
+]
+
+
+:: LINE 2 [LINE] {"position":"725,1350","size":"100,100"}
+The Green Sea laps at your feet.
+
+(link: "Listen")[
+(unless: $alba is an array)[(set: $alba to (a:))]
+(set: $alba to $alba + (a: $alba2))
+(set: $albaGiven's street2 to true)
+
+(print: $alba2)
+
+[[Talk to the critic|Talk to the critic]]
+]
+
+
+:: LINE 3 [LINE] {"position":"1950,275","size":"100,100"}
+Dawn is not far off.
+
+(link: "Listen")[
+(unless: $alba is an array)[(set: $alba to (a:))]
+(set: $alba to $alba + (a: $alba3))
+(set: $albaGiven's street3 to true)
+
+(print: $alba3)
+
+[[Soho!|Things turn up]]
+]
+
+
+:: Maltese Gangsters [Colony] {"position":"1475,1325","size":"100,100"}
+Salvu Copper, who is proportioned brutally, opens the door and leans over the threshold, like a hawk might hang over its prey.
+
+'Can I help you?' said Salvu.
+
+[['I'm a member.'|In Copper's lair]]
+
+[['Sorry, I think I've got the wrong door.'|Wrong door]]
+
+
+:: Maritime interlude [Pillars/] {"position":"900,975","size":"100,100"}
+Turning onto Greek Street, you find yourself at sea and in a storm.
+
+The broiling waters shred your ship till it's leaf-tobacco, toss it like a stub.
+
+A big hand splits the sky and a big voice booms:
+
+NE. PLUS. ULTRA.
+
+Do you keep going?
+
+	[[Yes|Entering The Pillars of Hercules]]
+	[[No|The coast of Carthage]]
+
+
+:: Meet Jeffrey Bernard [End] {"position":"1825,625","size":"100,100"}
+You're back on Dean Street.
+
+From the direction of Leicester Square a man is approaching, he is walking a cow, he is Jeffrey Bernard.
+
+'As I said,' he says…
+
+'I'd very much like to wake up one morning with a cow of the Friesian variety and walk her down to Soho to the Coach and Horses, stopping on the way to buy twenty Players, ply her with vodkas until closing time, whip her off to an Indian restaurant, take her up to the Colony Room till 5.30 and then to the Yorkminster, Swiss Tavern, Three Greyhounds, get beaten up by Chinese waiters at midnight, have a row with the taxi driver, set the bed on fire, put it out with tears and then wake up on the floor. Could you then milk said cow? I doubt it.'
+
+[[Talk to him|Jeffrey Bernard's Cow]]
+
+
+:: Milk Jeffrey Bernard's Cow [End] {"position":"2150,700","size":"100,100"}
+You lie on the Dean Street pavement like a mechanic under a chassis, take an udder in your fist and squeeze it, gingerly.
+
+A little warm milk plashes on your lips.
+
+'This,' you think, 'is why he is unwell.'
+
+[[Try to find a Night Bus|Things turn up]]
+[[Do it all over again |Things turn up]]
+
+
+:: Morris's Office {"position":"2750,650","size":"100,100"}
+You find the building on Frith Street, on the door: M. Morris.
+
+You knock.
+
+'Come in. You must.'
+
+You do.
+
+He lifts the needle from his record, sinks his glass then tops it up (it's scotch and soda), then turns to his desk with his elbows and settling them individually, says, 'You were sent by Jeffrey?'
+
+You nod.
+
+'Well give it over.'
+
+You put the manusicrip on the scuffed leather deasktop.
+
+He reads the first page. Then the last page. Then a page from the middle.
+
+(if: $confidence >= 60)[
+He sets it down, carefully, as one might set a toffler on the floor.
+
+'This itsn't bad. Have you got a job? A wife? Children? How long can you give to me? You've something but there's work to do. Lot's of work.'
+
+This is as close as you've ever been.
+
+(set: $confidence to $confidence + 20)
+
+[[Leave with a smile|Dean Street]]
+]
+(else:)[
+He sets it down, kindly but finally.
+
+'This isnt ready.'
+
+You know that he's not wrong.
+
+(set: $confidence to $confidence - 10)
+
+[[Leave|Dean Street]]
+]
+
+
+:: No more [End] {"position":"1400,550","size":"100,100"}
+Centre Point is still behind you. It's been there all day long.
+
+The way that you conceive, now, of its height is more temporal than spacial and like time but not but like space it remains impossible, merely notional; has a quality that space only attains when we imagine it infinitely.
+
+One jumping from the top should fall forever and seem to fall as a ton of feathers falls in a perfect vacuum.
+
+Standing here you can see London, Carthage, Liverpool and everything else.
+
+[[Lose|Black page]]
+
+
+:: None of us likes it! [Pillars] {"position":"1150,1250","size":"100,100"}
+'Good god, man! None of us likes it.'
+
+[[Leave immediately|Coach and Horses lock]]
+
+[[Put your manuscript on the table|The critic's judgement]]
+
+
+:: Novelist. Trisha's [French] {"position":"1025,800","size":"100,100"}
+'Look, I'm busy now, but Let's meet at Trisha's later?'
+
+[[I'll see you later|Dean Street]]
+
+
+:: Press advantage {"position":"2075,2125","size":"100,100"}
+You swing again but Copper has recovered. This time when his fist connects with your ribs you go down hard on the cellar floor.
+
+'Stupid,' says Copper.
+
+[[Get thrown out|Beaten]]
+
+
+:: Ride Jeffrey Bernard's cow [End] {"position":"2225,425","size":"100,100"}
+You cry, 'Soho! Soho!' and ride that cow till daybreak. 
+
+Then you realise you've lost your manuscript.
+
+Do you want to go home?
+
+[[No|LINE 3]]
+[[Yes|Things turn up]]
+
+
+:: Stay in Carthage [Carthage] {"position":"600,950","size":"100,100"}
+You stay.
+
+The pyre burns down while you're close and through the night, the body in its flames transforms, on the path of an asymtote, to something infinitessimally-not-Lily.
+
+Close to dawn, then again very close to the dawn, you hear three lines:
+
+(print: $alba1)
+(print: $alba2)
+(print: $alba3)
+
+[[Dawn|Dawn]]
+
+
+:: StoryInit {"position":"1350,50","size":"100,100"}
+(set: $albaRevealed to false)
+(set: $confidence to 35)
+(set: $sobriety to 100)
+(set: $returns to 0)
+(set: $knowsCopperWord to false)
+(set: $alba to (a:))
+(set: $alba1 to "As cool as the pale wet leaves")
+(set: $alba2 to "of lily-of-the-valley")
+(set: $alba3 to "She lay beside me in the dawn.")
+(set: $albaGiven to (dm: "red", false, "street2", false, "street3", false))
+(set: $visited to (dm: "French", false, "Pillars", false, "Colony", false))
+(set: $metRed to false)
+(set: $knowsMorris to false)
+
+
+<script>
+window.history.pushState(null, null, window.location.href);
+window.onpopstate = function() {
+  window.history.pushState(null, null, window.location.href);
+};
+</script>
+
+
+:: Success: Trisha's [End] {"position":"1500,1650","size":"100,100"}
+As you walk in you see a woman who was a friend of yours some time ago.
+
+She knows the bouncers. In you go.
+
+[[Trisha's|Trisha's]]
+
+
+:: Talk to the critic [Pillars] {"position":"850,1500","size":"100,100"}
+You meet him, at the bar with a big scotch in one hand and a fag in the other.
+
+He's getting a round in: what do you order?
+
+[[Gin and Bitter Lemon|Gin and bitter lemon]]
+
+
+:: Talk to the intimidating agent [Colony] {"position":"2025,1300","size":"100,100"}
+(set: $confidence to $confidence - 12)
+
+[[Leave the club|Meet Jeffrey Bernard]]
+
+
+:: The Colony Room [Colony] {"position":"1625,1200","size":"100,100"}
+(set: $sobriety to $sobriety - 10)
+
+(unless: $visited is a datamap)[(set: $visited to (dm:))]
+
+(unless: $visited contains "Colony")[(set: $visited's Colony to false)]
+
+(if: $visited's Colony is not true)[
+	(set: $visited's Colony to true)
+	(set: $confidence to $confidence + 8)
+]
+
+[[Get a drink|Colony drink choice]]
+[[Bottle it|Dean Street]]
+
+
+:: The Colony Room Door [Colony] {"position":"1475,1150","size":"100,100"}
+You think you know where The Colony Room is. You're not a member, but a friend brought you there once before.
+
+You find youself with a choice of two doors.
+
+On which do you knock?
+
+[[Left|Maltese Gangsters]]
+[[Right|The Colony Room]]
+
+
+:: The French [French] {"position":"775,700","size":"100,100"}
+There, sitting quietly at a table in the corner, you spot what you're after.
+
+He's a novelist now, though you've known him since he was but a poet.
+
+Between the ground you've taken and his position falls an amber monolith, through a Dean Street window; a thick and molten bar on the gnarly floor, light and distinct. If you stepped in it you could become a fossil, like the filoplume of a silent dinosaur.
+
+You once told him that he should stick to poems. 
+
+Have you anything to lose?
+
+[[Nothing|The novelist]]
+[[Everything|Dean Street]]
+
+
+:: The Interval [END] {"position":"1950,425","size":"100,100"}
+You're descending a flight of stairs. The kind you find leaving a theatre, red carpet worn thin at the centers.
+
+A woman passes you, going up.
+
+You glance at each other.
+
+She stops. Turns. Looks you dead in the face.
+
+'She lay beside me in the dawn.'
+
+The scent of lily-of-the-valley.
+
+She continues up the stairs. You continue down.
+
+(unless: $alba is an array)[(set: $alba to (a:))]
+
+(if: not ($alba contains $alba3))[
+  (set: $alba to $alba + (a: $alba3))
+]
+
+[[Dean Street|Dean Street]]
+
+
+
+:: The coast of Carthage [Carthage] {"position":"725,1150","size":"100,100"}
+You bottled it but you've found safe harbour in Carthage, which is not like you rememeber it at all. These days it is swamped with Romans.
+
+The last time you were here, you recall only Scipio Aemilianus, who was weeping and who  said:
+
+'A day will come when Ilium shall perish, 
+And Priam and his people shall be slain.'
+
+You think about that still, sometimes, in England.
+
+You see two paths:
+
+On the hill a woman burns upon a pyre.
+
+And past the beach, a little bar: The Green Sea.
+
+[[Approach the pyre|Dido]]
+[[Go to The Green Sea|LINE 2]]
+
+
+:: The critic's judgement [Pillars] {"position":"1175,1075","size":"100,100"}
+(set: $confidence to $confidence - 12)
+
+He nods, pulls the manuscript towards him. He lights another cigarette.
+
+The bar, which had been very loud, seems quieter now, while he reads the title page then turns immediately to somewhere in the middle.
+
+He reads a little there, then turns again to another page and reads that too. He does this several times, while the bar is geting louder in your ears, until it seems about to drop.
+
+'Not for me', he says. 'Have you tried America?'
+
+You thank him, say goodbye, and make to leave but he calls you back:
+
+And by the way, tell Copper I said hello.
+
+(set: $knowsCopperWord to true)
+
+[[Try again|Dean Street]]
+[[Head for the night bus|Meet Jeffrey Bernard]]
+
+
+:: The novelist [French] {"position":"775,825","size":"100,100"}
+(set: $confidence to $confidence - 12)
+
+He's been reading it for longer than is comfortable. 
+
+At last, he pushes your book back and asks: 'Is this yours?'
+
+Before you can answer, he says, 'I don't know.'
+
+[[Leave the bar|Novelist. Trisha's]]
+
+
+:: Things turn up [End] {"position":"1650,400","size":"100,100"}
+'Things turn up', said the poet.
+
+'Here is your throat back, thanks for the loan.'
+
+[[Try me again|Dean Street]]
+
+
+:: Trisha's [End] {"position":"1800,1750","size":"100,100"}
+PARTY
+
+[[Return|Dean Street]]
+
+
+:: Turn to Copper [Colony] {"position":"2000,1725","size":"100,100"}
+'Salvu Copper' is a name you know and now you're putting a face to it.
+
+Since the Twins went down in '68, his work's been easier. He's run his little fiefdom – pornography, strip clubs, hookers (the sorts of work that old fashioned East End crooks will swear blind they don't touch) – very nicely, though lately he's feeling the heat.
+
+At the far end of the cellar, at a simple wooden table, sits 'Quiet' Frankie Muscat, who seems to you like nothing so much as a planet, the sort of man with moons. Yes, he is big, but his gravity comes, mostly, from his silence and a sense of power unused.
+
+Opposite him (and her presence surprises you) is a poet you know, an American girl who comes from banking money, called Ashton Granger. You agreed long ago to pretend not to notice each other, should you accidentally meet. She twirls her hair and scribbles without looking at the page, and gives Quiet Frankie a kind of angry come-hither look.
+
+Copper speaks:
+
+'What have you got to say for yourself?'
+
+(if: $knowsCopperWord)[
+	[[Tell Copper: "I SAID HELLO."|Copper accepts]]
+	[[Say nothing|Copper confronts]]
+]
+(else:)[
+	[[Say nothing|Copper confronts]]
+]
+
+
+:: Which drink at the French? [French] {"position":"900,550","size":"100,100"}
+\:: Which drink at the French?
+(set: $sobriety to $sobriety - 15)
+
+[[Wine|The French]]
+[[Beer|The French]]
+[[Cider|The French]]
+
+
+:: Wrong door [Colony] {"position":"1425,1500","size":"100,100"}
+You've ballsed this up. It's already nearly midngiht.
+
+Trisha's is close by, and  one can always try there, but you're not a member these days, so who knows if you'll get in.
+
+[[They know me|Failure: Trisha's]]
+
+[[I might as well give it a try|Success: Trisha's]]
+
+
+:: You enter the French [French] {"position":"1050,525","size":"100,100"}
+(if: $visited is not a datamap)[(set: $visited to (dm:))]
+(unless: $visited contains "French")[(set: $visited's French to false)]
+
+(set: $sobriety to $sobriety - 10)
+
+(if: $visited's French is not true)[
+	(set: $visited's French to true)
+	(set: $confidence to $confidence + 8)
+]
+
+As you walk in the bar drops down to silence, as if its speech were interrupted by a quick gasp for breath, the way an antelope sometimes mistakes the wind in the grass for a lion, stiffens, then goes about its day.
+
+At one end of the bar are the artists; you know them, they are famous.
+
+Stuffed into a barstool which his arsecheeks overhang, like clouds waiting to rain, is a stout man with his back to you. His leather jacket, somehow both parched and sweating, falls short at the neck, flashing a collar of labial pink.
+
+Opposite him is the only man who clocks you, who is thin like verdaccio and hardly there at all.
+
+[[Get a drink|Which drink at the French?]]
+
+
+:: You speak to the poet [Poet] {"position":"2350,1325","size":"100,100"}
+(set: $metRed to true)
+
+'Red!' you say. He looks up at first, then towards you without looking at you.
+
+'I need to sell a book.'
+
+'Sell yourself,' he says. 'Things turn up.'
+
+You understand.
+
+As you turn, you strike, in the cool and marbling air, a vein of his perfume, which you recognise, because you once loved a woman who wore that scent, as lily-of-the-valley.
+
+(set: $confidence to $confidence - 5)
+
+[[Back to Dean Street|LINE 1]]
+
+
+:: You wait for him to speak [Poet] {"position":"2525,925","size":"100,100"}
+(set: $confidence to $confidence - 5)
+
+You stand by Red for a while, just outside of the ginger light. 
+
+He does nothing, says nothing. Smokes. You leave.
+
+[[Back to Dean Street|Dean Street]]
+
+
+:: header [header] {"position":"1500,50","size":"100,100"}
+(if: $gameInitialized is not true)[
+(set: $confidence to 35)
+(set: $sobriety to 100)
+(set: $returns to 0)
+(set: $knowsCopperWord to false)
+(set: $alba to (a:))
+(set: $alba1 to "As cool as the pale wet leaves")
+(set: $alba2 to "of lily-of-the-valley")
+(set: $alba3 to "She lay beside me in the dawn.")
+(set: $albaGiven to (dm: "red", false, "street2", false, "street3", false))
+(set: $visited to (dm: "French", false, "Pillars", false, "Colony", false))
+(set: $metRed to false)
+(set: $knowsMorris to false)
+(set: $gameInitialized to true)
+]
+
+Morale: $confidence
+
+(if: $confidence >= 90)[██████████](else-if: $confidence >= 80)[█████████░](else-if: $confidence >= 70)[████████░░](else-if: $confidence >= 60)[███████░░░](else-if: $confidence >= 50)[██████░░░░](else-if: $confidence >= 40)[█████░░░░░](else-if: $confidence >= 30)[████░░░░░░](else-if: $confidence >= 20)[███░░░░░░░](else-if: $confidence >= 10)[██░░░░░░░░](else:)[█░░░░░░░░░]
+
+Sobriety: $sobriety
+
+(if: $sobriety >= 90)[██████████](else-if: $sobriety >= 80)[█████████░](else-if: $sobriety >= 70)[████████░░](else-if: $sobriety >= 60)[███████░░░](else-if: $sobriety >= 50)[██████░░░░](else-if: $sobriety >= 40)[█████░░░░░](else-if: $sobriety >= 30)[████░░░░░░](else-if: $sobriety >= 20)[███░░░░░░░](else-if: $sobriety >= 10)[██░░░░░░░░](else:)[█░░░░░░░░░]
+
+(if: $sobriety < ($confidence - 30))[
+[[Give up on the book|No more]]
+]
+
+
+:: StoryStylesheet [stylesheet]
+/* Gritty 1970s Soho Aesthetic - Enhanced */
+
+tw-story {
+  background-color: #1a1a1a;
+  color: #d4a574;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 40px;
+  position: relative;
+}
+
+/* Film grain overlay */
+tw-story::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulance type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+tw-passage {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Pulsing glow animation */
+@keyframes pulse {
+  0%, 100% {
+    text-shadow: 0 0 6px rgba(244, 199, 122, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(244, 199, 122, 0.7);
+  }
+}
+
+/* Links - with pulsing glow */
+tw-link {
+  color: #f4c77a;
+  text-decoration: none;
+  border-bottom: 1px solid #d4a574;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+tw-link:hover {
+  color: #fff4e6;
+  border-bottom-color: #f4c77a;
+  animation: none;
+  text-shadow: 0 0 15px rgba(244, 199, 122, 0.8);
+}
+
+/* Headers and emphasis */
+h1, h2, h3 {
+  color: #f4c77a;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: normal;
+}
+
+em, i {
+  color: #bbb;
+  font-style: italic;
+}
+
+/* Hide browser back button functionality */
+html {
+  overscroll-behavior: none;
+}
+
+/* Reduce big default gaps between blocks (Harlowe uses lots of <p>) */
+tw-story p {
+  margin: 0.25em 0;
+}
+
+/* === ALBA REVELATION BOX === */
+/* This appears when Red first gives you the quest */
+
+.revelation-box {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+  border: 2px solid #e6d5ac;
+  border-radius: 8px;
+  padding: 25px;
+  margin: 30px 0;
+  position: relative;
+  box-shadow:
+    0 0 20px rgba(230, 213, 172, 0.3),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.revelation-box::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #e6d5ac, #8b7355, #e6d5ac, #8b7355);
+  border-radius: 10px;
+  z-index: -1;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.revelation-header {
+  text-align: center;
+  font-size: 1.4em;
+  color: #e6d5ac;
+  letter-spacing: 8px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(230, 213, 172, 0.5);
+}
+
+.revelation-footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #8b7355;
+  letter-spacing: 4px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #8b7355;
+}
+
+.alba-line {
+  font-style: italic;
+  color: #f4e4bc;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 15px;
+  margin: 15px 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #e6d5ac;
+}
+
+
+/* === ALBA TRACKER BOX === */
+/* This appears on every page after the revelation */
+
+.alba-tracker {
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid #8b7355;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 25px;
+  font-size: 0.85em;
+}
+
+.alba-tracker-header {
+  color: #e6d5ac;
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.alba-tracker-subtitle {
+  color: #8b7355;
+  font-size: 0.85em;
+  text-align: center;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.alba-line-found {
+  color: #a8d5a2;
+  padding: 4px 0;
+  font-style: italic;
+}
+
+.alba-line-missing {
+  color: #666;
+  padding: 4px 0;
+  letter-spacing: 2px;
+}
+
+.alba-progress {
+  color: #8b7355;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.alba-complete {
+  color: #f4e4bc;
+  text-align: center;
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(230, 213, 172, 0.1);
+  border: 1px solid #e6d5ac;
+  animation: pulse 2s ease-in-out infinite;
+}
